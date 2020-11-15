@@ -1,4 +1,4 @@
-provider "cloudflare" {}
+provider "cloudflare/cloudflare" {}
 
 data "cloudflare_ip_ranges" "cloudflare" {}
 
