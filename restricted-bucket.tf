@@ -11,6 +11,26 @@ terraform {
     }
 }
 
+variable "BUCKET_NAME" {
+    type = string
+}
+
+variable "ACCOUNT_ID" {
+    type = string
+}
+
+variable "USER_ID" {
+    type = string
+}
+
+variable "ACCESS_KEY_ID" {
+    type = string
+}
+
+variable "SECRET_ACCESS_KEY" {
+    type = string
+}
+
 provider "aws" {
     # Configuration options
     region = "us-west-2"
