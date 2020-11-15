@@ -19,10 +19,6 @@ variable "ACCOUNT_ID" {
   type = string
 }
 
-variable "USER_ID" {
-  type = string
-}
-
 variable "ACCESS_KEY_ID" {
   type = string
 }
@@ -59,7 +55,7 @@ provider "cloudflare" {
 
 data "cloudflare_ip_ranges" "cloudflare" {}
 
-resource "aws_s3_bucket" "b" {
+resource "aws_s3_bucket" "bucket" {
   bucket = var.BUCKET_NAME
   acl    = "private"
   website {
@@ -72,8 +68,8 @@ resource "aws_s3_bucket" "b" {
   }
 }
 
-resource "aws_s3_bucket_policy" "b" {
-  bucket = aws_s3_bucket.b.id
+resource "aws_s3_bucket_policy" "bucket" {
+  bucket = aws_s3_bucket.bucket.id
   policy = data.aws_iam_policy_document.restrict_to_cloudflare_ips.json
 }
 
