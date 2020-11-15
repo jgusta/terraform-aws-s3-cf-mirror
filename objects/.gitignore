@@ -1,0 +1,2 @@
+# gitcheck-ignore -v -- aFile
+# this file should have been added to repo so everything can be ignored.
