@@ -12,8 +12,6 @@ provider "aws" {
   region = "us-west-2"
 }
 
-provider "cloudflare/cloudflare" {}
-
 data "cloudflare_ip_ranges" "cloudflare" {}
 
 resource "aws_s3_bucket" "static-bucket" {
