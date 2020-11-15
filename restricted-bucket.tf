@@ -1,9 +1,23 @@
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "3.15.0"
+    }
+  }
+}
+
+provider "aws" {
+  # Configuration options
+  region = "us-west-2"
+}
+
 provider "cloudflare/cloudflare" {}
 
 data "cloudflare_ip_ranges" "cloudflare" {}
 
 resource "aws_s3_bucket" "static-bucket" {
-  bucket = "BUCKET_NAME"
+  bucket = var.BUCKET_NAME
   acl    = "private"
 
   website {
@@ -12,7 +26,7 @@ resource "aws_s3_bucket" "static-bucket" {
   }
 
   tags = {
-    Name = "BUCKET_NAME"
+    Name = var.BUCKET_NAME
   }
 }
 
@@ -31,15 +45,15 @@ data "aws_iam_policy_document" "restrict-to-cloudflare-ips" {
     effect = "Deny"
 
     resources = [
-      "arn:aws:s3:::BUCKET_NAME",
-      "arn:aws:s3:::BUCKET_NAME/*"
+      "arn:aws:s3:::${var.BUCKET_NAME}",
+      "arn:aws:s3:::${var.BUCKET_NAME}/*"
     ]
 
     not_principals {
       type = "*"
       identifiers = [
-        "arn:aws:iam::ACCOUNT_ID:root",
-        "arn:aws:iam::ACCOUNT_ID:user/USER_ID"
+        "arn:aws:iam::${var.ACCOUNT_ID}:root",
+        "arn:aws:iam::${var.ACCOUNT_ID}:user/&{aws:username}"
       ]
     }
 
@@ -52,6 +66,6 @@ data "aws_iam_policy_document" "restrict-to-cloudflare-ips" {
 }
 
 resource "aws_s3_bucket_policy" "static-bucket" {
-  bucket = aws_s3_bucket.BUCKET_NAME.id
+  bucket = aws_s3_bucket[var.BUCKET_NAME].id
   policy = data.aws_iam_policy_document.restrict-to-cloudflare-ips.json
 }
