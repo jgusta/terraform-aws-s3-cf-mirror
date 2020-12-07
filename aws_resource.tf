@@ -5,10 +5,6 @@ resource "aws_s3_bucket" "bucket" {
     index_document = "index.html"
     error_document = "index.html"
   }
-  logging {
-    target_bucket = aws_s3_bucket.log_bucket.id
-    target_prefix = "log/"
-  }
   tags = {
     Name = var.bucket_name
   }
@@ -34,12 +30,4 @@ resource "aws_s3_bucket_object" "objects" {
 resource "aws_s3_bucket_policy" "restrict_to_cloudflare" {
   bucket = aws_s3_bucket.bucket.id
   policy = data.aws_iam_policy_document.restrict_to_cloudflare.json
-}
-
-resource "aws_s3_bucket" "log_bucket" {
-  bucket = "logz.${var.bucket_name}"
-  acl    = "log-delivery-write"
-  tags = {
-    Name = var.bucket_name
-  }
 }

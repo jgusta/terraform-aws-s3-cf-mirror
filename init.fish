@@ -7,12 +7,12 @@ function _walk_vars
     end
 end
 
-pushd (dirname (readlink -m (status --current-filename)))
-
 if not test -f terraform.tfvars
+    echo 'terraform.tfvars not found. Enter values.';
     _walk_vars
+    echo 'terraform.tfvars created. Running init.';
+else
+    echo "terraform.tfvars found. Running init."
 end
 
 terraform init
-
-popd

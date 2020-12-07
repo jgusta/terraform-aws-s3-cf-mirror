@@ -11,8 +11,13 @@ terraform apply .terraform/planfile
 ```
 
 ## Sources
-- https://www.terraform.io/docs/configuration/modules.html
+### Articles
 - https://blog.gruntwork.io/terraform-tips-tricks-loops-if-statements-and-gotchas-f739bbae55f9
-- https://www.terraform.io/docs/modules/sources.html
 - https://advancedweb.hu/how-to-add-https-for-an-s3-bucket-website-with-cloudflare
 - https://registry.terraform.io/modules/apparentlymart/dir/template/latest
+- https://medium.com/@kscloud/restrict-s3-bucket-access-to-cloudflare-ips-only-104583f6fc98
+
+### First party documentation
+- https://www.terraform.io/docs/configuration/modules.html
+- https://www.terraform.io/docs/modules/composition.html
+- https://www.terraform.io/docs/modules/sources.html
