@@ -9,7 +9,9 @@ terraform {
       version = "3.15.0"
     }
   }
+  required_version = "~> 0.14"
 }
+
 module "template_files" {
   source   = "apparentlymart/dir/template"
   version  = "1.0.2"
