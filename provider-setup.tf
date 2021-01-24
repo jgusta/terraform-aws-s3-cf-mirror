@@ -19,6 +19,7 @@ module "template_files" {
   template_vars = {
   }
 }
+  
 provider "aws" {
   # Configuration options
   region     = "us-west-2"
@@ -27,7 +28,6 @@ provider "aws" {
 }
 
 provider "cloudflare" {
-  version            = "~> 2.0"
   api_token          = var.cloudflare_api_token
   api_client_logging = true
 }
