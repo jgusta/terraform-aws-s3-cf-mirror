@@ -2,6 +2,8 @@
 
 ## This repo
 
+> ⚠️  Notice (Oct 2022): This template mostly made obsolete by [Cloudflare Pages](https://pages.cloudflare.com/), since it is about as free as amazon, and you only need the single cloudflare account. While netlify was already an option when this template was made, it doesn't have the same free tier as Cloudflare, which offers 100 sites of 20k files each. 
+
 This is a terraform config that describes:
 
 1) An s3 bucket with the the static website feature enabled, but not public.
@@ -18,7 +20,7 @@ This is a terraform config that describes:
 - Amazon Web Services account (S3 specifically).
 - A domain name that you own that is managed by your own free Cloudflare account.
 - Your static html website that starts at `index.html` and can include subfolders.
-- (Optional) [Fish Shell[(https://fishshell.com/) for running the 'do-it-for-me' scripts. You can at least read the scripts and know what it is doing
+- (Optional) [Fish Shell](https://fishshell.com/) for running the 'do-it-for-me' scripts. You can at least read the scripts and know what it is doing
 
 ## Initialize
 - Put static website files in `src`, making sure you have at least `index.html`.
