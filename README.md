@@ -1,45 +1,37 @@
-'Free' (or at least cheap) static website deployment on a subdomain using S3, Cloudflare and Terraform.
-
-## This repo
-
-> ⚠️  Notice (Oct 2022): This template mostly made obsolete by [Cloudflare Pages](https://pages.cloudflare.com/), since it is about as free as amazon, and you only need the single cloudflare account. While netlify was already an option when this template was made, it doesn't have the same free tier as Cloudflare, which offers 100 sites of 20k files each. 
-
-This is a terraform config that describes:
-
-1) An s3 bucket with the the static website feature enabled, but not public.
-2) The contents are uploaded from the `src` directory.
-3) The contents are properly tagged with etag and content-type.
-4) The policy applied limits access exclusively to Cloudflare.
-5) Cloudflare is identified by iv4 and iv6 IP addresses, automatically pulled from their api.
-6) A subdomain on a Cloudflare , that proxies the content of the bucket via CNAME.
+'Free' (or at least cheap) static website deployment on a subdomain using S3, Cloudflare and Terraform. Emphasis on longevity.
 
 ## Requirements
+- Local install of [Terraform CLI](https://www.terraform.io/downloads.html)
+- Amazon S3 account
+- A free-tier Cloudflare account
+- A domain name with Cloudflare as nameserver
+- Your static html
 
-- MacOS / Unix like (i think)
-- [Terraform CLI](https://www.terraform.io/downloads.html) 
-- Amazon Web Services account (S3 specifically).
-- A domain name that you own that is managed by your own free Cloudflare account.
-- Your static html website that starts at `index.html` and can include subfolders.
-- (Optional) [Fish Shell](https://fishshell.com/) for running the 'do-it-for-me' scripts. You can at least read the scripts and know what it is doing
-
-## Initialize
+## Setup
 - Put static website files in `src`, making sure you have at least `index.html`.
-- If you have fish shell run `./init.fish` to interactively create `terraform.tfvars`, or ...
-- ... look at `variables.tf` to see what you need to define.
+- Look at `variables.tf` to see what you need to define.
 - Create your plan and apply:
 ```
 terraform plan -out=.terraform/planfile && \
 terraform apply .terraform/planfile
 ```
 
-## Example
-- Imagine I just crawled my wordpress site and saved it as html. 
-- Im done with the dynamic backend and just want to preserve the site as a static snapshot. 
-- I want it to be somewhere available and reliably safe and I also dont want to pay for hosting.
-- I own a $10/year domain and I have a free Cloudflare account managing it.
-- I dump the files into the `src` dir here, fill in the variables (or run `init.fish` to interactively do it) for my aws and Cloudflare accounts. 
-- Then I use the free [Terraform](https://www.terraform.io/downloads.html) cli to run `plan` and/or `apply`. Being lazy I just run ./start.fish` which handles that for me.
-- Now my site is available on the web at the subdomain I wanted and s3 hosts it for 1 cent a month (which if that's your only s3 usage means they don't bill you at all even on the non-free tier.) And Cloudflare caches all of that.
+Result:
+- Your static html files on an s3 bucket with:
+  -  Static website feature enabled, not public.
+  -  Contents are properly tagged with etag and content-type.
+  -  An access policy that only allows Cloudflare IPs (automatically updated at deployment).
+- A subdomain on cloudflare, which proxies the content of the bucket via CNAME.
+
+In effect, you will have a static website hosted on S3, but served through Cloudflare's CDN, with the origin locked off. 
+
+## Why host on S3 instead of Cloudflare pages? 
+The idea of free static hosting has definitely lost a bit of its novelty due to the proliferation of static-site offerings. This template was started before Cloudflare pages was available. 
+
+However there are a few reasons you might still be interested in this template's method. I made this template for archival of static websites with an emphasis on longevity, for example blogs of people who are no longer with us. You can see two archived sites deployed with this template: (Aaron Swartz' Blog)[https://aaronsw.cloudgaffle.com/] and (Steve Steinberg's Blog)[https://steinberg.cloudgaffle.com/]. I consider these successful as of the original sites, the first no longer has SSL and the second is offline.
+- S3 has a stable pricing structure that is unlikely to change. Even if they do away with the free tier, your costs will likely be be 1-2 cents per billing period (if this is your only aws costs, they wont bother to bill you).
+- and Cloudflare's free offerings will likely always include Nameserver and CDN services, but Pages is still new. Using S3 for three years now, have still not paid anything for hosting of several static sites.
+
 
 
 
